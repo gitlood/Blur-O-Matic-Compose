@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
@@ -74,7 +75,8 @@ fun BluromaticScreenContent(
     blurUiState: BlurUiState,
     blurAmountOptions: List<BlurAmount>,
     applyBlur: (Int) -> Unit,
-    cancelWork: () -> Unit) {
+    cancelWork: () -> Unit
+) {
     var selectedValue by rememberSaveable { mutableStateOf(1) }
     val context = LocalContext.current
     Column(modifier = Modifier.padding(8.dp)) {
@@ -112,7 +114,18 @@ private fun BlurActions(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        Button(onGoClick) { Text(stringResource(R.string.go)) }
+        when (blurUiState) {
+            is BlurUiState.Default -> {
+                Button(onGoClick) { Text(stringResource(R.string.go)) }
+            }
+            is BlurUiState.Loading -> {
+                Button(onCancelClick) { Text(stringResource(R.string.cancel_work)) }
+                CircularProgressIndicator(modifier = modifier.padding(8.dp))
+            }
+            is BlurUiState.Complete -> {
+                Button(onGoClick) { Text(stringResource(R.string.go)) }
+            }
+        }
     }
 }
 
