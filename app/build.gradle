@@ -82,4 +82,11 @@ dependencies {
     androidTestImplementation 'androidx.work:work-testing:2.7.1'
     debugImplementation "androidx.compose.ui:ui-test-manifest"
     debugImplementation "androidx.compose.ui:ui-tooling"
+
+    // Junit
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    //Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // Work testing
+    androidTestImplementation 'androidx.work:work-testing:2.7.1'
 }
