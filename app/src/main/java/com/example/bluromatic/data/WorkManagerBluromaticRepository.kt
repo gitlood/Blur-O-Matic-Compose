@@ -41,9 +41,10 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
     private val workManager = WorkManager.getInstance(context)
     private val imageUri = context.getImageUri()
 
-    override val outputWorkInfo: Flow<WorkInfo> = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT).asFlow().mapNotNull {
-        if (it.isNotEmpty()) it.first() else null
-    }
+    override val outputWorkInfo: Flow<WorkInfo> =
+        workManager.getWorkInfosByTagLiveData(TAG_OUTPUT).asFlow().mapNotNull {
+            if (it.isNotEmpty()) it.first() else null
+        }
 
     /**
      * Create the WorkRequests to apply the blur and save the resulting image
@@ -85,7 +86,9 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
     /**
      * Cancel any ongoing WorkRequests
      * */
-    override fun cancelWork() {}
+    override fun cancelWork() {
+        workManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME)
+    }
 
     /**
      * Creates the input data bundle which includes the blur level to
